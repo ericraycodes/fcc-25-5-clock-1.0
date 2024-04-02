@@ -36,5 +36,5 @@ export default function Clock25Plus5() {
 
     </main>
     </>
-  )
+  );
 }
