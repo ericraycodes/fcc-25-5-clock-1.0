@@ -10,9 +10,11 @@ import Time from './Time';
    * @state : timer initialvalue, timer current countdown value.
    * @state : session time-length value.
    * @state : break time-length value.
-   * 1. Stores app state.
-   * 2. Update / manage app state through user-input and functionality.
-   * 3. Receives user-input-data to perform functionalities.
+   * 
+   * Tasks:
+   *  1. Stores app state.
+   *  2. Update / manage app state through user-input and functionality.
+   *  3. Receives user-input-data to perform functionalities.
    */
 export default function Clock255() {
 

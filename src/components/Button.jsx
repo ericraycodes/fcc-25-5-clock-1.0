@@ -5,8 +5,9 @@
     * @prop String  : inner text for the <button/>.
     * @prop function: callback function run when either of the <button/>s was clicked.
     * 
-    * 1. Attach mouse-click-event-listener to the buttons.
-    * 2. Run callback when events are fired, passing in the <button/>'s #id as data.
+    * Tasks:
+    *   1. Attach mouse-click-event-listener to the buttons.
+    *   2. Run callback when events are fired, passing in the <button/>'s #id as data.
     * 
     * @role : collect and pass user-mouse input to parent component.
     */

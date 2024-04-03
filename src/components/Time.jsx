@@ -5,7 +5,8 @@
     * @prop String  : inner text for <label/>.
     * @prop State   : the current value of the state representing time.
     * 
-    * 1. assign props to jsx.
+    * Task:
+    *   1. assign props to jsx.
     * 
     * @role : display the current value of associated state.
     */
