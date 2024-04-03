@@ -1,9 +1,18 @@
 
 
+// imports
+import Button from './Button';
+import Time from './Time';
 
 
-/** Parent Component
-   * 
+
+/** Clock255 parent component
+   * @state : timer initialvalue, timer current countdown value.
+   * @state : session time-length value.
+   * @state : break time-length value.
+   * 1. Stores app state.
+   * 2. Update / manage app state through user-input and functionality.
+   * 3. Receives user-input-data to perform functionalities.
    */
 export default function Clock255() {
 
@@ -13,24 +22,21 @@ export default function Clock255() {
     <main className="clock255">
 
       <section id="timer-label">
-        <label for="time-left">Session</label>
-        <div id="time-left">25:00</div>
-        <button id="start_stop">PLAY / PAUSE</button>
-        <button id="reset">RESET</button>
+        <Time/>
+        <Button/>
+        <Button/>
       </section>
 
       <section id="session-label">
-        <label for="session-length">Session Length</label>
-        <div id="session-length">25</div>
-        <button id="session-decrement">-</button>
-        <button id="session-increment">+</button>
+        <Time/>
+        <Button/>
+        <Button/>
       </section>
 
       <section id="break-label">
-        <label for="break-length">Break Length</label>
-        <div id="break-length">5</div>
-        <button id="break-decrement">-</button>
-        <button id="break-increment">+</button>
+        <Time/>
+        <Button/>
+        <Button/>
       </section>
 
     </main>
