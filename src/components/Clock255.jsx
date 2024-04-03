@@ -24,21 +24,33 @@ export default function Clock255() {
     <main className="clock255">
 
       <section id="timer-label">
-        <Time/>
-        <Button/>
-        <Button/>
+        <Time
+          id="time-left"
+          label="Session"
+          duration={"25:00"}
+        />
+        <Button id="start_stop" text="PLAY / PAUSE"/>
+        <Button id="reset"      text="RESET"/>
       </section>
 
       <section id="session-label">
-        <Time/>
-        <Button/>
-        <Button/>
+        <Time
+          id="session-length"
+          label="Session Length"
+          duration={25}
+        />
+        <Button id="session-decrement" text="-"/>
+        <Button id="session-increment" text="+"/>
       </section>
 
       <section id="break-label">
-        <Time/>
-        <Button/>
-        <Button/>
+        <Time
+          id="break-length"
+          label="Break Length"
+          duration={5}
+        />
+        <Button id="break-decrement" text="-"/>
+        <Button id="break-increment" text="+"/>
       </section>
 
     </main>

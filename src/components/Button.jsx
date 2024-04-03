@@ -14,7 +14,8 @@ import { useRef, useEffect } from 'react';
     * 
     * @role : collect and pass user-mouse input to parent component.
     */
-export default function Button() {
+export default function Button({ id, text }) {
+
 
   // reference button node
   const buttonRef = useRef(null);
@@ -34,9 +35,10 @@ export default function Button() {
     window.console.log(event, event.target.id);
   };
 
+
   return (
     <>
-      <button ref={buttonRef} id={ 'button-id' }>{ 'button' }</button>
+      <button ref={ buttonRef } id={ id }>{ text }</button>
     </>
   );
 }
