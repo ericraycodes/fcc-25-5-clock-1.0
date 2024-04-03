@@ -15,7 +15,7 @@ export default function Time() {
 
   return (
     <>
-      <label for={ 'time-id' }>Label</label>
+      <label htmlFor={ 'time-id' }>Label</label>
       <div id={ 'time-id' }>Time</div>
     </>
   );

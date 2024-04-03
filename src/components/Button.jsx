@@ -1,5 +1,8 @@
 
 
+// imports
+import { useRef, useEffect } from 'react';
+
 /** Buttons child component
     * @prop String  : #id for the <button/>.
     * @prop String  : inner text for the <button/>.
@@ -13,10 +16,27 @@
     */
 export default function Button() {
 
+  // reference button node
+  const buttonRef = useRef(null);
+
+  // attach mouse-click event-listerer
+  useEffect(() => {
+    buttonRef.current.addEventListener('click', handleClick);
+    return () => {
+      buttonRef.current.removeEventListener('click', handleClick);
+    };
+  });
+
+  // handleClick
+  const handleClick = (event) => {
+    // console
+    window.console.count('user-click');
+    window.console.log(event, event.target.id);
+  };
 
   return (
     <>
-      <button id={ 'button-id '}>{ 'button' }</button>
+      <button ref={buttonRef} id={ 'button-id' }>{ 'button' }</button>
     </>
   );
 }
