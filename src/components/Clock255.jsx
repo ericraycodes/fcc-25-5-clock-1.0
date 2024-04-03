@@ -23,7 +23,7 @@ export default function Clock255() {
     <>
     <main className="clock255">
 
-      <section id="timer-label">
+      <section id="timer-label" className="widget">
         <Time
           id="time-left"
           label="Session"
@@ -33,7 +33,7 @@ export default function Clock255() {
         <Button id="reset"      text="RESET"/>
       </section>
 
-      <section id="session-label">
+      <section id="session-label" className="widget">
         <Time
           id="session-length"
           label="Session Length"
@@ -43,7 +43,7 @@ export default function Clock255() {
         <Button id="session-increment" text="+"/>
       </section>
 
-      <section id="break-label">
+      <section id="break-label" className="widget">
         <Time
           id="break-length"
           label="Break Length"

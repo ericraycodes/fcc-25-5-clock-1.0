@@ -36,9 +36,16 @@ export default function Button({ id, text }) {
   };
 
 
+  // for class name and styling purposes
+  const cn = /decrement|start/.test(id) ? 1 : 2;
+
   return (
     <>
-      <button ref={ buttonRef } id={ id }>{ text }</button>
+      <button
+        ref={ buttonRef }
+        id={ id }
+        className={ "button" + cn.toString()}
+      >{ text }</button>
     </>
   );
 }

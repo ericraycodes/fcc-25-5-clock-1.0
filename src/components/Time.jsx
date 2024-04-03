@@ -15,8 +15,8 @@ export default function Time({ id, label, duration }) {
 
   return (
     <>
-      <label htmlFor={ id }>{ label }</label>
-      <div id={ id }>{ duration }</div>
+      <label htmlFor={ id } className="label">{ label }</label>
+      <div id={ id } className="duration">{ duration }</div>
     </>
   );
 }
