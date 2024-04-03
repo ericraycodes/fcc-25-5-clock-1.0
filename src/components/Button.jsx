@@ -3,6 +3,9 @@
 // imports
 import { useRef, useEffect } from 'react';
 
+
+
+
 /** Buttons child component
     * @prop String  : #id for the <button/>.
     * @prop String  : inner text for the <button/>.
@@ -36,15 +39,16 @@ export default function Button({ id, text }) {
   };
 
 
-  // for class name and styling purposes
-  const cn = /decrement|start/.test(id) ? 1 : 2;
+  // button class name distinction, for styling purposes
+  const buttonCN = (/start|decrement/.test(id) ? 1 : 2).toString();
+
 
   return (
     <>
       <button
         ref={ buttonRef }
         id={ id }
-        className={ "button" + cn.toString()}
+        className={ "button" + buttonCN}
       >{ text }</button>
     </>
   );

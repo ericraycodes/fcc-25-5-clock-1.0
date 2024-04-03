@@ -16,7 +16,7 @@
 }
 /* grid items */
 .widget .label     { grid-area: label; }
-.widget .duration  { grid-area: durat; }
+.widget .length  { grid-area: durat; }
 .widget .button1   { grid-area: decre; }
 .widget .button2   { grid-area: incre; }
 
@@ -33,6 +33,6 @@
 }
 /* grid items */
 #timer-label .label     { grid-area: label; }
-#timer-label .duration  { grid-area: timer; }
+#timer-label .length  { grid-area: timer; }
 #timer-label .button1   { grid-area: bttn1; }
 #timer-label .button2   { grid-area: bttn2; }

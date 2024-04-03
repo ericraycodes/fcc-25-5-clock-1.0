@@ -10,13 +10,12 @@
     * 
     * @role : display the current value of associated state.
     */
-export default function Time({ id, label, duration }) {
-
+export default function Time({ id, label, length }) {
 
   return (
     <>
       <label htmlFor={ id } className="label">{ label }</label>
-      <div id={ id } className="duration">{ duration }</div>
+      <div id={ id } className="length">{ length }</div>
     </>
   );
 }

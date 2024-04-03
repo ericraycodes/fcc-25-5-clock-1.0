@@ -26,8 +26,8 @@ Currently, two official plugins are available:
 - *session length* : initial value of **25**.
 - *Clock / Timer* : initial value of **session length** - **[25, 00]**.
 
-## Peripheral
-- *buttons* : increment, decrement, play/pause, reset
+## Events / Peripheral
+- **mouse-click** on *buttons* : increment, decrement, play/pause, reset
 
 ## Resource
 - *beep* - sound file
@@ -44,3 +44,4 @@ Currently, two official plugins are available:
     - returns the app to its initial state
     - `<audio #beep/>` stops from sounding and resets to the beginning (when already playing).
   - when the clock reaches **00:00**, `<audio #beep/>` sound off at least a second.
+
