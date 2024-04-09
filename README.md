@@ -13,35 +13,35 @@ Currently, two official plugins are available:
 
 # The App v1
 
-## Data information
-- *Numeric values* : break length; session length; initial values of break and session; these values does not go below zero
-- *Clock / Timer (MM:SS)* : countdown timer / clock until `00:00`; the initial value is defined by the break and session length values
-
-## Data structure
-- *Numbers* (Primitive) : break length, session length, initial values
-- *Array* [mm, ss] : Clock / Timer (Custom)
-
-## State
-- *break length* : initial value of **5**.
-- *session length* : initial value of **25**.
-- *Clock / Timer* : initial value of **session length** - **[25, 00]**.
-
-## Events / Peripheral
-- **mouse-click** on *buttons* : increment, decrement, play/pause, reset
-
 ## Resource
 - *beep* - sound file
 
+## User-events
+- **mouse-click** on *buttons* as *controls*: 
+  - increment
+  - decrement
+  - play/pause
+  - reset
+
 ## Logic
-- Setting up *break length* and *session length* values.
-  1. Initialized to 5 and 25, respectively.
-  1. Can be incremented <= **60** and decremented >= **0**, when clock is not running.
-- Playing, pausing, resetting the clock.
-  - *play-toggle*: runs the clock
-  - *pause-toggle*: pauses the clock
-  - *reset-button*:
-    - the clock is at stop
-    - returns the app to its initial state
-    - `<audio #beep/>` stops from sounding and resets to the beginning (when already playing).
-  - when the clock reaches **00:00**, `<audio #beep/>` sound off at least a second.
+The countdown / timer should be a separate task running parallel to synchronous code. Hence, it should run asynchronously. It important to note, that it can be controlled with associated controls.
+1. Identify the `<button#id>` of user-click.
+  - The **timer** *control-buttons* will run functionalities of the timer / countdown.
+  - **session** and **break** *control-buttons* will run their respective functionalities.
+1. Concurrent **timer / coundown** sub-widget:
+  - The `start_stop` button#id will **run** or **pause** an *asynchronous* task of a countdown clock when *toggled*; the first *time-length* will be of the *session* value; when session ends, the *break* *time-length* runs; *session* and *break* time-lengths will run alternately in that order.
+  - The `reset` button#id will return the *clock* to its initial set.
+1. The **session** and **break** sub-widget:
+  - The `*-decrement` and `*-increment` will update the value of either *session* or *break* values in correspondense; these will run with a certain condition:
+    - they will run the task when **timer** is not running,
+    - decrements does not go below **1** minute,
+    - increments does not go above **60** minutes
+1. Everytime the **timer / countdown** goes down to **00 : 00** the `<audio#beep>` will sound off for at least a second.
+
+## Data management
+1. An **asynchronous function** will run a *countdown* of the *session-time* and *break-time*, respectively.
+1. A **state** will hold the length of *session-time*.
+1. A **state** will hold the length of *break-time*.
+1. A **state** will hold the *Boolean* condition of the `<button #start_stop>` when toggled.
+
 
