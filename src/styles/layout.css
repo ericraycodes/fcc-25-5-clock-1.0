@@ -4,10 +4,10 @@
 
 
 /* all widgets */
-.widget {
+.subwidget {
   display: grid;
-  grid-template-rows: 1fr 2fr;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto auto;
   grid-template-areas:
     "label label label"
     "decre durat incre";
@@ -15,10 +15,10 @@
   align-items: center;
 }
 /* grid items */
-.widget .label     { grid-area: label; }
-.widget .length  { grid-area: durat; }
-.widget .button1   { grid-area: decre; }
-.widget .button2   { grid-area: incre; }
+.subwidget .label     { grid-area: label; }
+.subwidget .length  { grid-area: durat; }
+.subwidget .button1   { grid-area: decre; }
+.subwidget .button2   { grid-area: incre; }
 
 
 /* #timer-label */
