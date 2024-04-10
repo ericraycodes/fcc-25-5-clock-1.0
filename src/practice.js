@@ -1,5 +1,23 @@
 
 
+
+// callback
+const countdown = (sec) => {
+    // display in mm:ss
+    const mm = Math.floor(sec / 60);
+    const ss = sec % 60;
+    // console
+    console.log('countdown', (mm < 10 ? '0' + mm : mm), ':', (ss < 10 ? '0' + ss : ss));
+
+    // base condition
+    if (sec === 0) return;
+
+    // task
+    setTimeout(() => {
+        countdown(sec -= 1);
+    }, 1000);
+};
+
 /** Creating a countdown timer
  * 
  * This is a practice file.
@@ -14,17 +32,15 @@
  * @return 
  * 
  */
-function countdown(time) {
+function runTimer(minute) {
+    // console
+    console.log('time in minutes:', minute);
 
-    if (time < 0) return 0;
+    // convert minutes to seconds
+    const seconds = minute * 60;
 
-    setTimeout(() => {
-        // console
-        console.log('counting down...', time);
-        // recursive call
-        countdown(time - 1);
-    }, 1000);
-
+    // run countdown
+    countdown(seconds);
 }
 
-countdown(10);
+runTimer(10);

@@ -67,7 +67,7 @@ export default function Clock255() {
 
   /** Callback functions
     * 1. receiveButtonInput : receive #id of the <button/> element when user clicks
-    * 2. runTimerControls
+    * 2. runTimerControls   : control the countdown of the timer sub-widget
     * 3. runSessionControls : update the state of session-length
     * 4. runBreakControls   : update the state of break-length
     */
