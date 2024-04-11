@@ -52,24 +52,16 @@ export default function Clock255() {
 
   /** DATA
    * 
-   * State:
+   * @State:
    * 1. isRunning : Boolean value, condition of the countdown - running or not
    * 2. session   : session time length in minutes, initial value of 25.
    * 3. break     : break time length in minutes, initial value of 5.
    * 
-   * Ref:
+   * @Ref:
    * 1. countdownRef : The time-value of the countdown in seconds.
    *                    Initial value of session-time-length 25min. 
    *                    Immutable across re-renders.
    */
-  // state
-  const [clock, setClock] = useState({
-    "isRunning" : false,
-    "session"   : 25,
-    "break"     : 5,
-  });
-  // ref
-  const countdownRef = useRef(null);
 
 
   /** EFFECTS
@@ -88,144 +80,49 @@ export default function Clock255() {
 
 
   /** CALLBACKS
-    * 1. receiveButtonInput : receive #id of the <button/> element when user clicks
+    * 1. handleButtonId     : receive #id of the <button/> element when user clicks
     * 2. runTimerControls   : update the state of the countdown's 'isRunning' condition
     *                         in the timer sub-widget
     * 3. runSessionControls : update the state of session-length
     * 4. runBreakControls   : update the state of break-length
     */
-  // collect input: <button#id>
-  const handleInput = (buttonId) => {
-    // console : button#id passed in
-    window.console.log('\tbutton#id received:', buttonId);
-    
-    // funtionalites in response to button#id
-    if (buttonId==='start_stop' || buttonId==='reset') runTimerControls(buttonId);
-    else if (!clock["isRunning"]) {
-      if (buttonId==='session-decrement' || buttonId==='session-increment') runSessionControls(buttonId);
-      else if (buttonId==='break-decrement' || buttonId==='break-increment') runBreakControls(buttonId);
-    }
-  };
-  // timer controls
-  const runTimerControls = (buttonId) => {
-    // count
-    window.console.count('\ttimer controls');
-
-    // reference isRunning state
-    let play = clock.isRunning;
-    if (buttonId === 'start_stop') play = !play;
-    else if (buttonId === 'reset') play = false;
+  // collect the input-button#id, proceed to functionalities
+  const handleButtonId = (buttonId) => {
     // console
-    window.console.log('\tisRunning:', play);
-
-    // update state
-    setClock((prev) => {
-      return {
-        "isRunning" : play,
-        "session"   : prev.session,
-        "break"     : prev.break,
-      };
-    });
+    window.console.log('\tbutton#id:', buttonId);
   };
-  // setting session length
-  const runSessionControls = (buttonId) => {
-    // count
-    window.console.count('\tsession-length');
-
-    // store session length update
-    let sessionLength = clock.session;
-
-    // decrement
-    if (buttonId==='session-decrement' && sessionLength>1) {
-      // count
-      window.console.count('\tsession-decrement');
-      // decrement
-      sessionLength--;
-    }
-    // increment
-    else if (buttonId==='session-increment' && sessionLength<60) {
-      // count
-      window.console.count('\tsession-increment');
-      // increment
-      sessionLength++;
-    }
-
-    // update session in state
-    setClock((prev) => {
-      return {
-        "isRunning" : prev.isRunning,
-        "session"   : sessionLength,
-        "break"     : prev.break,
-      };
-    });
-  };
-  // setting break length
-  const runBreakControls = (buttonId) => {
-    // count
-    window.console.count('\tbreak-length');
-
-    // store break length updated value
-    let breakLength = clock.break;
-
-    // decrement
-    if (buttonId==='break-decrement' && clock.break>1) {
-      // count
-      window.console.count('\tbreak-decrement');
-      // update
-      breakLength--;
-    }
-    // increment
-    else if (buttonId==='break-increment' && clock.break<60) {
-      // count 
-      window.console.count('\tbreak-increment');
-      // update
-      breakLength++;
-    }
-
-    // update state
-    setClock((prev) => {
-      return {
-        "isRunning" : prev.isRunning,
-        "session"   : prev.session,
-        "break"     : breakLength,
-      };
-    });
-  };
-
-
-  /* ITERATIVE RENDER: sub-widgets
-    * 1. Reference state values  to respective sub-widgets.
-    * 2. Iterate render.
-    */
-  const subWidgetsRender = (function() {
-    // assign state values to respective sub-widgets
-    APP[0]["time"]["length"] = clock.timer;
-    APP[1]["time"]["length"] = clock.session;
-    APP[2]["time"]["length"] = clock.break;
-
-    // iterate sub-widget render
-    return APP.map(obj => {
-      // console: check assigned state values
-      // window.console.log(APP);
-      return (
-        <section id={ obj.id } className="subwidget" key={ obj.id }>
-          <Time
-            id={ obj.time.id }
-            label={ obj.time.label }
-            length={ obj.time.length }
-          />
-          <Button id={ obj.button1.id} text={ obj.button1.text } callback={ handleInput }/>
-          <Button id={ obj.button2.id} text={ obj.button2.text } callback={ handleInput }/>
-        </section>
-      );
-    });
-  }) ();
 
 
   return (
     <>
     <main className="clock255">
-      { subWidgetsRender }
+      <section id={ 'timer-label' }>
+        <Time
+          id={ 'time-left' }
+          label={ 'Session / Break' }
+          length={ '25:00' }
+        />
+        <Button id={ 'start_stop' } text={ 'PLAY/PAUSE' } callback={ handleButtonId }/>
+        <Button id={ 'reset' } text={ 'RESET' } callback={ handleButtonId }/>
+      </section>
+      <section id='session-label'>
+        <Time
+          id={ 'session-length' }
+          label={ 'Session Length' }
+          length={ 'state' }
+        />
+        <Button id={ 'session-decrement' } text={ '-' } callback={ handleButtonId }/>
+        <Button id={ 'session-increment' } text={ '+' } callback={ handleButtonId }/>
+      </section>
+      <section id='break-label'>
+        <Time
+          id={ 'break-length' }
+          label={ 'Break Length' }
+          length={ 'state' }
+        />
+        <Button id={ 'break-decrement' } text={ '-' } callback={ handleButtonId }/>
+        <Button id={ 'break-increment' } text={ '+' } callback={ handleButtonId }/>
+      </section>
     </main>
     </>
   );
