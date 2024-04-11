@@ -46,7 +46,7 @@ const APP = [
    * Tasks:
    *  1. Stores app state.
    *  2. Update / manage app state through user-input and functionality.
-   *  3. Receives user-input-data to perform functionalities.
+   *  3. Perform app functionalities according to user-input.
    */
 export default function Clock255() {
 
@@ -77,11 +77,19 @@ export default function Clock255() {
     * of the timer sub-widget.
     * a. Runs timer-countdown when 'isRunning' is Boolean true.
     * b. Stops/pauses timer-countdown when 'isRunning' is Boolean false.
-    * c. Resets the timer-countdown to its initial state when <button#reset> is pressed.
     * 
     * @Effect#2 alarm : An asynchronous task of sounding <audio #beep>
     * everytime timer-countdown reaches down to '00:00'.
     */
+  // effect 1: asynchronous timer-countdown
+  // useEffect(() => {
+  //   // countdown runs only when isRunning is true
+  //   while (isRunning) {
+  //     [sessionLength, breakLength].forEach(min => {
+
+  //     });
+  //   }
+  // });
 
 
 
@@ -105,10 +113,13 @@ export default function Clock255() {
 
     // when <button#id> is of the timer sub-widget
     if (isOfTimerOrigin) runTimerControls(buttonId);
-    // when <button#id> is of the session sub-widget
-    else if (isOfSessionOrigin) runSessionControls(buttonId);
-    // when <button#id> is of the break sub-widget
-    else if (isOfBreakOrigin) runBreakControls(buttonId);
+    // when of other sub-widgets, check if timer-countdown is running
+    else if (!isRunning) {
+      // when <button#id> is of the session sub-widget
+      if (isOfSessionOrigin) runSessionControls(buttonId);
+      // when <button#id> is of the break sub-widget
+      else if (isOfBreakOrigin) runBreakControls(buttonId);
+    }
   };
   // update isRunning state, run reset functionality
   const runTimerControls = (buttonId) => {
