@@ -38,9 +38,10 @@ const APP = [
 
 
 /** Clock255 parent component
-   * @state : timer initialvalue, timer current countdown value.
-   * @state : session time-length value.
-   * @state : break time-length value.
+   * @ref : Holds the current timer-countdown value.
+   * @state : The condition of timer-countdown (running or not).
+   * @state : The session time-length value.
+   * @state : The break time-length value.
    * 
    * Tasks:
    *  1. Stores app state.
@@ -52,44 +53,115 @@ export default function Clock255() {
 
   /** DATA
    * 
-   * @State:
-   * 1. isRunning : Boolean value, condition of the countdown - running or not
-   * 2. session   : session time length in minutes, initial value of 25.
-   * 3. break     : break time length in minutes, initial value of 5.
+   * State:
+   * @isRunning Boolean     : condition of the timer-countdown - running or not
+   * @sessionLength Number  : session time length in minutes, initial value of 25.
+   * @breakLength Number    : break time length in minutes, initial value of 5.
    * 
-   * @Ref:
-   * 1. countdownRef : The time-value of the countdown in seconds.
-   *                    Initial value of session-time-length 25min. 
-   *                    Immutable across re-renders.
+   * Ref:
+   * @cdRef Number : The time-value of the timer-countdown in seconds. 
    */
+  // state
+  const [isRunning, setIsRunning] = useState(false);
+  const [sessionLength, setSessionLength] = useState(25);
+  const [breakLength, setBreakLength] = useState(5);
+  // ref
+  const cdRef = useRef(null);
+  // console
+  window.console.log('state:', isRunning, sessionLength, breakLength, 'ref:', cdRef.current);
 
 
   /** EFFECTS
     * 
-    * @Effect#1 : An asynchronous task of running the countdown
+    * @Effect#1 timer-countdown : An asynchronous task of running the countdown
     * of the timer sub-widget.
-    * a. Runs countdown when 'isRunning' is Boolean true.
-    * b. Stops/pauses countdown when 'isRunning' is Boolean false.
-    * c. Resets the countdown to its initial state when <button#reset> is pressed.
+    * a. Runs timer-countdown when 'isRunning' is Boolean true.
+    * b. Stops/pauses timer-countdown when 'isRunning' is Boolean false.
+    * c. Resets the timer-countdown to its initial state when <button#reset> is pressed.
     * 
-    * @Effect#2 : An asynchronous task of sounding <audio #beep>
-    * everytime countdown reaches down to '00:00'.
+    * @Effect#2 alarm : An asynchronous task of sounding <audio #beep>
+    * everytime timer-countdown reaches down to '00:00'.
     */
 
 
 
 
   /** CALLBACKS
-    * 1. handleButtonId     : receive #id of the <button/> element when user clicks
-    * 2. runTimerControls   : update the state of the countdown's 'isRunning' condition
+    * @handleButtonId     : receive #id of the <button/> element when user clicks
+    * @runTimerControls   : update the state of the timer-countdown's 'isRunning' condition
     *                         in the timer sub-widget
-    * 3. runSessionControls : update the state of session-length
-    * 4. runBreakControls   : update the state of break-length
+    * @runSessionControls : update the state of session-length
+    * @runBreakControls   : update the state of break-length
     */
   // collect the input-button#id, proceed to functionalities
   const handleButtonId = (buttonId) => {
     // console
     window.console.log('\tbutton#id:', buttonId);
+
+    // check button-controls origin
+    const isOfTimerOrigin = buttonId==='start_stop' || buttonId==='reset';
+    const isOfSessionOrigin = buttonId==='session-decrement' || buttonId==='session-increment';
+    const isOfBreakOrigin = buttonId==='break-decrement' || buttonId==='break-increment';
+
+    // when <button#id> is of the timer sub-widget
+    if (isOfTimerOrigin) runTimerControls(buttonId);
+    // when <button#id> is of the session sub-widget
+    else if (isOfSessionOrigin) runSessionControls(buttonId);
+    // when <button#id> is of the break sub-widget
+    else if (isOfBreakOrigin) runBreakControls(buttonId);
+  };
+  // update isRunning state, run reset functionality
+  const runTimerControls = (buttonId) => {
+    // count
+    window.console.count('\ttimer-sub-widget');
+
+    // update isRunning
+    if (buttonId==='start_stop') {
+      setIsRunning((prev) => { return !prev; });
+    }
+    // reset clock
+    else if (buttonId==='reset') {
+      setIsRunning(false);
+      setSessionLength(25);
+      setBreakLength(5);
+      cdRef.current = 'reset';
+    }
+  };
+  // update sessionLength state
+  const runSessionControls = (buttonId) => {
+    // count
+    window.console.count('session-sub-widget');
+
+    // session length decrement
+    if (buttonId==='session-decrement' && sessionLength>1) {
+      setSessionLength((prev) => { 
+        return prev - 1; 
+      });
+    }
+    // session length increment
+    else if (buttonId==='session-increment' && sessionLength<60) {
+      setSessionLength((prev) => { 
+        return prev + 1; 
+      });
+    }
+  };
+  // update BreakLength state
+  const runBreakControls = (buttonId) => {
+    // count
+    window.console.count('break-sub-widget');
+
+    // break decrement
+    if (buttonId==='break-decrement' && breakLength>1) {
+      setBreakLength((prev) => {
+        return prev - 1;
+      });
+    }
+    // break increment
+    if (buttonId==='break-increment' && breakLength<60) {
+      setBreakLength((prev) => {
+        return prev + 1;
+      });
+    }
   };
 
 
@@ -109,7 +181,7 @@ export default function Clock255() {
         <Time
           id={ 'session-length' }
           label={ 'Session Length' }
-          length={ 'state' }
+          length={ sessionLength }
         />
         <Button id={ 'session-decrement' } text={ '-' } callback={ handleButtonId }/>
         <Button id={ 'session-increment' } text={ '+' } callback={ handleButtonId }/>
@@ -118,7 +190,7 @@ export default function Clock255() {
         <Time
           id={ 'break-length' }
           label={ 'Break Length' }
-          length={ 'state' }
+          length={ breakLength }
         />
         <Button id={ 'break-decrement' } text={ '-' } callback={ handleButtonId }/>
         <Button id={ 'break-increment' } text={ '+' } callback={ handleButtonId }/>
