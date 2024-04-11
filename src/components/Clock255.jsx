@@ -66,7 +66,7 @@ export default function Clock255() {
   const [sessionLength, setSessionLength] = useState(25);
   const [breakLength, setBreakLength] = useState(5);
   // ref
-  const cdRef = useRef(null);
+  const cdRef = useRef({ "session": sessionLength, "break": breakLength, "countdown": null });
   // console
   window.console.log('state:', isRunning, sessionLength, breakLength, 'ref:', cdRef.current);
 
@@ -82,14 +82,9 @@ export default function Clock255() {
     * everytime timer-countdown reaches down to '00:00'.
     */
   // effect 1: asynchronous timer-countdown
-  // useEffect(() => {
-  //   // countdown runs only when isRunning is true
-  //   while (isRunning) {
-  //     [sessionLength, breakLength].forEach(min => {
+  useEffect(() => {
 
-  //     });
-  //   }
-  // });
+  });
 
 
 
@@ -135,7 +130,7 @@ export default function Clock255() {
       setIsRunning(false);
       setSessionLength(25);
       setBreakLength(5);
-      cdRef.current = 'reset';
+      cdRef.current.countdown = sessionLength;
     }
   };
   // update sessionLength state
