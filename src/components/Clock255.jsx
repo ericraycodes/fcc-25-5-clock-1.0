@@ -1,7 +1,7 @@
 
 
 // imports
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import Time from './Time';
 // import
@@ -50,24 +50,47 @@ const APP = [
 export default function Clock255() {
 
 
-  /** State
-   * 1. countdown : timer, initial value of 25:00.
-   * 2. sessionLength : session time length, initial value of 25.
-   * 3. breakLength : break time length, initial value of 5.
+  /** DATA
+   * 
+   * State:
+   * 1. isRunning : Boolean value, condition of the countdown - running or not
+   * 2. session   : session time length in minutes, initial value of 25.
+   * 3. break     : break time length in minutes, initial value of 5.
+   * 
+   * Ref:
+   * 1. countdownRef : The time-value of the countdown in seconds.
+   *                    Initial value of session-time-length 25min. 
+   *                    Immutable across re-renders.
    */
-  // const [countdown, setCountdown] = useState(25);
-  // const [sessionLength, setSessionLength] = useState(25);
-  // const [breakLength, setBreakLength] = useState(5);
+  // state
   const [clock, setClock] = useState({
     "isRunning" : false,
     "session"   : 25,
     "break"     : 5,
   });
+  // ref
+  const countdownRef = useRef(null);
 
 
-  /** Callback functions
+  /** EFFECTS
+    * 
+    * @Effect#1 : An asynchronous task of running the countdown
+    * of the timer sub-widget.
+    * a. Runs countdown when 'isRunning' is Boolean true.
+    * b. Stops/pauses countdown when 'isRunning' is Boolean false.
+    * c. Resets the countdown to its initial state when <button#reset> is pressed.
+    * 
+    * @Effect#2 : An asynchronous task of sounding <audio #beep>
+    * everytime countdown reaches down to '00:00'.
+    */
+
+
+
+
+  /** CALLBACKS
     * 1. receiveButtonInput : receive #id of the <button/> element when user clicks
-    * 2. runTimerControls   : control the countdown of the timer sub-widget
+    * 2. runTimerControls   : update the state of the countdown's 'isRunning' condition
+    *                         in the timer sub-widget
     * 3. runSessionControls : update the state of session-length
     * 4. runBreakControls   : update the state of break-length
     */
@@ -86,7 +109,23 @@ export default function Clock255() {
   // timer controls
   const runTimerControls = (buttonId) => {
     // count
-    window.console.count('\tcountdown');
+    window.console.count('\ttimer controls');
+
+    // reference isRunning state
+    let play = clock.isRunning;
+    if (buttonId === 'start_stop') play = !play;
+    else if (buttonId === 'reset') play = false;
+    // console
+    window.console.log('\tisRunning:', play);
+
+    // update state
+    setClock((prev) => {
+      return {
+        "isRunning" : play,
+        "session"   : prev.session,
+        "break"     : prev.break,
+      };
+    });
   };
   // setting session length
   const runSessionControls = (buttonId) => {
@@ -154,7 +193,7 @@ export default function Clock255() {
   };
 
 
-  /* Iterative render on sub-widgets
+  /* ITERATIVE RENDER: sub-widgets
     * 1. Reference state values  to respective sub-widgets.
     * 2. Iterate render.
     */
