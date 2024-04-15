@@ -14,7 +14,7 @@ const APP = [
   // #timer-label
   {
     id      : 'timer-label',
-    time    : { id : 'time-left', label : 'Session', length  : null, },
+    time    : { id : 'time-left', label : null, length  : null, },
     button1 : { id : 'start_stop', text : 'PLAY/PAUSE', },
     button2 : { id : 'reset', text : 'RESET', },
   },
@@ -54,21 +54,26 @@ export default function Clock255() {
   /** DATA
    * 
    * State:
-   * @isRunning Boolean     : condition of the timer-countdown - running or not
-   * @sessionLength Number  : session time length in minutes, initial value of 25.
-   * @breakLength Number    : break time length in minutes, initial value of 5.
+   * @schedule      String  : The schedule between 'Session' and 'Break' that is subject
+   *                          to countdown. An initial value of 'Session'.
+   * @countdownTime Number  : The timer-countdown's time-left in seconds.
+   * @isRunning     Boolean : The condition of the timer-countdown - running or not.
+   * @sessionLength Number  : The session time length in minutes, initial value of 25.
+   * @breakLength   Number  : The break time length in minutes, initial value of 5.
    * 
    * Ref:
-   * @cdRef Number : The time-value of the timer-countdown in seconds. 
+   * @timeoutIDRef Number : The special ID of setTimeout(). Used for stopping the countdown. 
    */
   // state
+  const [schedule, setSchedule] = useState('Session');
+  const [countdownTime, setCountdownTime] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [sessionLength, setSessionLength] = useState(25);
   const [breakLength, setBreakLength] = useState(5);
   // ref
-  const cdRef = useRef({ "session": sessionLength, "break": breakLength, "countdown": null });
-  // console
-  window.console.log('state:', isRunning, sessionLength, breakLength, 'ref:', cdRef.current);
+  const timeoutIDRef = useRef(null);
+  // console: data
+  window.console.log('state:', isRunning, sessionLength, breakLength, 'ref:', timeoutIDRef.current);
 
 
   /** EFFECTS
@@ -83,18 +88,31 @@ export default function Clock255() {
     */
   // effect 1: asynchronous timer-countdown
   useEffect(() => {
-
-  });
-
-
+    /** countdown-logic
+        * 1. The setTimeout runs when isRunning is true.
+        * 2. The setTimeout stops when isRunning is false.
+        * 3. The countdown-time-holder does not change between plays/pauses/renders.
+        */
+    // when isRunning is true
+    if (isRunning) {
+      // countdown
+      timeoutIDRef.current = setTimeout(() => {
+        // deduct a second
+        setCountdownTime((cd) => cd - 1);
+      }, 1000);
+    }
+    // when isRunning is false
+    if (!isRunning) clearTimeout(timeoutIDRef.current);
+  }, [isRunning, countdownTime]);
 
 
   /** CALLBACKS
     * @handleButtonId     : receive #id of the <button/> element when user clicks
     * @runTimerControls   : update the state of the timer-countdown's 'isRunning' condition
-    *                         in the timer sub-widget
+    *                       in the timer sub-widget
     * @runSessionControls : update the state of session-length
     * @runBreakControls   : update the state of break-length
+    * @countdown          : executes countdown of the timer sub-widget
     */
   // collect the input-button#id, proceed to functionalities
   const handleButtonId = (buttonId) => {
@@ -127,10 +145,11 @@ export default function Clock255() {
     }
     // reset clock
     else if (buttonId==='reset') {
+      setSchedule('Session');
+      setCountdownTime(25 * 60);
       setIsRunning(false);
       setSessionLength(25);
       setBreakLength(5);
-      cdRef.current.countdown = sessionLength;
     }
   };
   // update sessionLength state
@@ -169,6 +188,18 @@ export default function Clock255() {
       });
     }
   };
+  // format to mm:ss
+  const formatTommss = (seconds) => {
+    let mm = Math.floor(seconds / 60);
+    let ss = seconds % 60;
+    mm = mm < 10 ? '0' + mm : mm;
+    ss = ss < 10 ? '0' + ss : ss; 
+    return mm.toString() + ":" + ss.toString();
+  };
+
+
+  // mmss format of the countdown time left
+  const mmss = formatTommss(countdownTime);
 
 
   return (
@@ -177,8 +208,8 @@ export default function Clock255() {
       <section id={ 'timer-label' }>
         <Time
           id={ 'time-left' }
-          label={ 'Session / Break' }
-          length={ '25:00' }
+          label={ schedule }
+          length={ mmss }
         />
         <Button id={ 'start_stop' } text={ 'PLAY/PAUSE' } callback={ handleButtonId }/>
         <Button id={ 'reset' } text={ 'RESET' } callback={ handleButtonId }/>
