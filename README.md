@@ -15,6 +15,7 @@ Currently, two official plugins are available:
 
 ## Resource
 - *beep* - sound file
+- pixabay [license](https://pixabay.com/service/license-summary/)
 
 ## User-events
 - **mouse-click** on *buttons* as *controls*: 

@@ -4,9 +4,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import Time from './Time';
-// import
-
-
+import mp3URL from '../assets/ambient-flute-notification-3-185275.mp3';
 
 
 // App data
@@ -56,7 +54,8 @@ export default function Clock255() {
    * @breakLength   Number  : The break time length in minutes, initial value of 5.
    * 
    * Ref:
-   * @timeoutIDRef Number : The special ID of setTimeout(). Used for stopping the countdown. 
+   * @timeoutIDRef Number : The special ID of setTimeout(). Used for stopping the countdown.
+   * @audioRef     String : The node refence to the <audio#beep> element.
    */
   // state
   const [schedule, setSchedule] = useState('Session');
@@ -66,8 +65,10 @@ export default function Clock255() {
   const [breakLength, setBreakLength] = useState(5);
   // ref
   const timeoutIDRef = useRef(null);
+  const audioIDRef = useRef(null);
+  const audioRef = useRef(null);
   // console: data
-  window.console.log('state:', isRunning, sessionLength, breakLength, 'ref:', timeoutIDRef.current);
+  window.console.log(schedule, 'running:', isRunning, 'ref:', timeoutIDRef.current);
 
 
   /** EFFECTS
@@ -88,12 +89,13 @@ export default function Clock255() {
         * 3. The countdown-time-holder does not change between plays/pauses/renders.
         * 4. The timer runs the scheduled countdown: Session, and then Break;
         *    this cycle repeats in order, unless there is a reset.
+        * 5. Sounds the <audio#beep> when schedule changes.
         */
     // when isRunning is true
     if (isRunning) {
       // countdown schedule
       if (countdownTime < 0) {
-      // change timer length to the next schedule
+        // change timer length to the next schedule
         const nextTimerLength = schedule === 'Session' ? breakLength*60 : sessionLength*60;
         setCountdownTime(nextTimerLength);
         // update schedule
@@ -101,8 +103,15 @@ export default function Clock255() {
       }
       // countdown
       else if (countdownTime >= 0) {
-        // async task
+        // async 1-second-countdown
         timeoutIDRef.current = setTimeout(() => setCountdownTime(countdownTime - 1), 1000);
+        // sound beep
+        if (countdownTime === 0) {
+          // count: #beep
+          window.console.count('#beep sound...');
+          // beep sound
+          audioRef.current.play();
+        }
       }
     }
     // when isRunning is false
@@ -148,11 +157,18 @@ export default function Clock255() {
     }
     // reset clock
     else if (buttonId==='reset') {
+      // reset state
       setSchedule('Session');
       setCountdownTime(25 * 60);
       setIsRunning(false);
       setSessionLength(25);
       setBreakLength(5);
+      // stop countdown, stop #beep, rewind #beep
+      clearTimeout(audioIDRef.current);
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      // console
+      window.console.log('reset');
     }
   };
   // update sessionLength state
@@ -201,6 +217,7 @@ export default function Clock255() {
   const mmss = formatToMMSS(countdownTime);
 
 
+  // RENDER JSX
   return (
     <>
     <main className="clock255">
@@ -231,6 +248,12 @@ export default function Clock255() {
         <Button id={ 'break-decrement' } text={ '-' } callback={ handleButtonId }/>
         <Button id={ 'break-increment' } text={ '+' } callback={ handleButtonId }/>
       </section>
+      <audio
+        id='beep'
+        ref={ audioRef }
+        src={ mp3URL }
+        preload='auto'
+      ></audio>
     </main>
     </>
   );
