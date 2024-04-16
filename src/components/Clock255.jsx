@@ -38,12 +38,6 @@ const APP = [
 
 
 /** Clock255 parent component
-   * @ref : Holds the current timer-countdown value.
-   * @state : The condition of timer-countdown (running or not).
-   * @state : The session time-length value.
-   * @state : The break time-length value.
-   * 
-   * Tasks:
    *  1. Stores app state.
    *  2. Update / manage app state through user-input and functionality.
    *  3. Perform app functionalities according to user-input.
@@ -92,14 +86,24 @@ export default function Clock255() {
         * 1. The setTimeout runs when isRunning is true.
         * 2. The setTimeout stops when isRunning is false.
         * 3. The countdown-time-holder does not change between plays/pauses/renders.
+        * 4. The timer runs the scheduled countdown: Session, and then Break;
+        *    this cycle repeats in order, unless there is a reset.
         */
     // when isRunning is true
     if (isRunning) {
+      // countdown schedule
+      if (countdownTime < 0) {
+      // change timer length to the next schedule
+        const nextTimerLength = schedule === 'Session' ? breakLength*60 : sessionLength*60;
+        setCountdownTime(nextTimerLength);
+        // update schedule
+        setSchedule((state) => state === 'Session' ? 'Break' : 'Session');
+      }
       // countdown
-      timeoutIDRef.current = setTimeout(() => {
-        // deduct a second
-        setCountdownTime((cd) => cd - 1);
-      }, 1000);
+      else if (countdownTime >= 0) {
+        // async task
+        timeoutIDRef.current = setTimeout(() => setCountdownTime(countdownTime - 1), 1000);
+      }
     }
     // when isRunning is false
     if (!isRunning) clearTimeout(timeoutIDRef.current);
@@ -112,7 +116,7 @@ export default function Clock255() {
     *                       in the timer sub-widget
     * @runSessionControls : update the state of session-length
     * @runBreakControls   : update the state of break-length
-    * @countdown          : executes countdown of the timer sub-widget
+    * @formatToMMSS       : convert seconds (Number) to mm:ss format (String)
     */
   // collect the input-button#id, proceed to functionalities
   const handleButtonId = (buttonId) => {
@@ -126,7 +130,7 @@ export default function Clock255() {
 
     // when <button#id> is of the timer sub-widget
     if (isOfTimerOrigin) runTimerControls(buttonId);
-    // when of other sub-widgets, check if timer-countdown is running
+    // when of other sub-widgets, check if timer is counting down
     else if (!isRunning) {
       // when <button#id> is of the session sub-widget
       if (isOfSessionOrigin) runSessionControls(buttonId);
@@ -138,10 +142,9 @@ export default function Clock255() {
   const runTimerControls = (buttonId) => {
     // count
     window.console.count('\ttimer-sub-widget');
-
     // update isRunning
     if (buttonId==='start_stop') {
-      setIsRunning((prev) => { return !prev; });
+      setIsRunning(!isRunning);
     }
     // reset clock
     else if (buttonId==='reset') {
@@ -156,50 +159,46 @@ export default function Clock255() {
   const runSessionControls = (buttonId) => {
     // count
     window.console.count('session-sub-widget');
-
+    // state update holder
+    let sessionLengthUpdate = sessionLength;
     // session length decrement
-    if (buttonId==='session-decrement' && sessionLength>1) {
-      setSessionLength((prev) => { 
-        return prev - 1; 
-      });
-    }
+    if (buttonId==='session-decrement' && sessionLength>1) sessionLengthUpdate -=  1;
     // session length increment
-    else if (buttonId==='session-increment' && sessionLength<60) {
-      setSessionLength((prev) => { 
-        return prev + 1; 
-      });
-    }
+    else if (buttonId==='session-increment' && sessionLength<60) sessionLengthUpdate += 1;
+    // update state
+    setSessionLength(sessionLengthUpdate);
+    if (schedule === 'Session') setCountdownTime(sessionLengthUpdate * 60);
   };
   // update BreakLength state
   const runBreakControls = (buttonId) => {
     // count
     window.console.count('break-sub-widget');
-
+    // state update holder
+    let breakLengthUpdate = breakLength;
     // break decrement
-    if (buttonId==='break-decrement' && breakLength>1) {
-      setBreakLength((prev) => {
-        return prev - 1;
-      });
-    }
+    if (buttonId==='break-decrement' && breakLength>1) breakLengthUpdate -= 1;
     // break increment
-    if (buttonId==='break-increment' && breakLength<60) {
-      setBreakLength((prev) => {
-        return prev + 1;
-      });
-    }
+    if (buttonId==='break-increment' && breakLength<60) breakLengthUpdate += 1;
+    // update state
+    setBreakLength(breakLengthUpdate);
+    if (schedule === 'Break') setCountdownTime(breakLengthUpdate * 60);
   };
   // format to mm:ss
-  const formatTommss = (seconds) => {
+  const formatToMMSS = (seconds) => {
+    // minutes
     let mm = Math.floor(seconds / 60);
+    // seconds
     let ss = seconds % 60;
+    // keep single digits to two digits - prepend a '0'
     mm = mm < 10 ? '0' + mm : mm;
-    ss = ss < 10 ? '0' + ss : ss; 
+    ss = ss < 10 ? '0' + ss : ss;
+    // return String: mmss format
     return mm.toString() + ":" + ss.toString();
   };
 
 
   // mmss format of the countdown time left
-  const mmss = formatTommss(countdownTime);
+  const mmss = formatToMMSS(countdownTime);
 
 
   return (
