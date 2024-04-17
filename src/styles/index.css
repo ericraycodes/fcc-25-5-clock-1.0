@@ -3,8 +3,8 @@
 /* imports */
 @import 'clock.scss';
 @import 'layout.scss';
-/*@import 'timer.scss';*/
-/*@import 'subwidget.scss';*/
+@import 'timer.scss';
+@import 'subwidget.scss';
 
 
 
@@ -18,7 +18,6 @@
   padding: 0;
 
   /* typo */
-  /* font-family: monospace, Courier, Courier New, Arial, "Times New Roman", sans-serif, serif; */
   font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
 }
@@ -28,4 +27,9 @@ body {
   /* dimension */
   height: 100vh;
   width: 100vw;
+
+  /* layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

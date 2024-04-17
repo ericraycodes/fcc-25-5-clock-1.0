@@ -1,25 +1,71 @@
 
 
-/* SESSION BREAK */
+// SUBWIDGET: SESSION, BREAK
 
 
-/*#session-label,
+// subwidget
+#session-label,
 #break-label {
+  // position temp
+  position: relative;
 
-}*/
+  // time
+  .length {
+    // dimension
+    width: 3rem;
+    height: 3rem;
+    // box
+    border: 2px solid lightgray;
+    border-radius: 50%;
+    // alignment
+    text-align: center;
+    padding-top: 0.4rem;
+    position: relative;
+  }
+  .length::after {
+    content: 'MIN';
+    font-size: 0.5rem;
+    font-style: italic;
+    font-weight: bold;
+    opacity: 0.85;
+    padding-left: 3px;
+    // position
+    position: absolute;
+    top: 1.7rem;
+    left: 0.8rem;
+  }
 
+  // label
+  .label {
+    // typo
+    font-size: 0.9rem;
+    font-style: italic;
+    // dimension
+    width: 7rem;
+    // position
+    position: absolute;
+    top: 0.3rem;
+    left: 3.1rem;
+    z-index: 1;
+  }
 
-/* label */
-#session-label .label,
-#break-label .label {
-  /* typo */
-  font-size: 1rem;
-}
-/* buttons */
-#session-label button,
-#break-label button {
-  /* dimension */
-
-  /* box */
-  border-radius: 50%;
+  // buttons
+  button {
+    // dimension
+    width: 2rem;
+    height: 1.2rem;
+    line-height: 1rem;
+    // transform
+    transform: skewX(-20deg);
+    // position
+    position: absolute;
+    top: 1.5rem;
+  }
+  // button position
+  .button1 {
+    left: 3.1rem;
+  }
+  .button2 {
+    left: 5.2rem;
+  }
 }

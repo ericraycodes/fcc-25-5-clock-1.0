@@ -1,37 +1,65 @@
 
 
-/* TIMER */
+// TIMER SUBWIDGET
 
 
-/* schedule */
-.label {
-  /* typo */
-  font-size: 2rem;
-  /* alignment */
-  text-align: center;
+// subwidget
+#timer-label {
+  // dimension
+  height: auto;
+
+  // layout
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* countdown */
-#time-left {
-  /* typo */
-  font-size: 10rem;
-  /* alignment */
+// items
+#timer-label {
 
-}
+  // label
+  .label {
+    // typo
+    font-size: 2rem;
+  }
 
-/* buttons */
-#timer-label button {
-  /* typo */
-  font-size: 1rem;
-  /* dimension */
-  width: 45%;
-  height: 1.5rem;
-  /* box */
-  border: 1.3px solid gray;
-  border-radius: 7px;
-  /* alignment */
-  margin: auto;
-  /* color */
-  background-color: transparent;
+  // mmss
+  .length {
+    // typo
+    font-size: 8rem;
+    // alignment
+    line-height: 8rem;
+    // box
+    margin-bottom: 1.3rem;
+  }
+
+  // buttons
+  .button1,
+  .button2 {
+    // typo
+    font-size: 0.85rem;
+    // box
+    border: 1.3px solid gray;
+    border-radius: 4px;
+    padding: 2px;
+    margin: 0.2rem 0;
+    // dimension
+    width: 8rem;
+    // color
+    background-color: transparent;
+  }
+
+  // position
+  position: relative;
+  .button1 {
+    position: relative;
+    right: 4.5rem;
+  }
+  .button2 {
+    position: absolute;
+    top: 11.95rem;
+    right: 1rem;
+  }
 
 }

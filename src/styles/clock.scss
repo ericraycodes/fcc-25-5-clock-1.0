@@ -1,16 +1,24 @@
 
 
-// Clock255 PARENT COMPONENT
+// CLOCK APP
 
 
 .clock255 {
+  // box
+  border: 5px solid gray;
+  border-radius: 2rem;
+  padding: 1.5rem 4rem;
+
   // dimension
+  width: auto;
+  height: auto;
   min-width: 320px;
   min-height: 340px;
-  width: 480px;
-  height: 500px;
 
-  // border
-  border: 5px solid gray;
-  border-radius: 15%;
+  // layout
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
