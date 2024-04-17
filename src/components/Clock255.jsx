@@ -227,7 +227,7 @@ export default function Clock255() {
           label={ schedule }
           length={ mmss }
         />
-        <Button id={ 'start_stop' } text={ 'PLAY/PAUSE' } callback={ handleButtonId }/>
+        <Button id={ 'start_stop' } text={ 'PLAY / PAUSE' } callback={ handleButtonId }/>
         <Button id={ 'reset' } text={ 'RESET' } callback={ handleButtonId }/>
       </section>
       <section id='session-label'>

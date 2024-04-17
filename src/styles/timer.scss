@@ -1,0 +1,37 @@
+
+
+/* TIMER */
+
+
+/* schedule */
+.label {
+  /* typo */
+  font-size: 2rem;
+  /* alignment */
+  text-align: center;
+}
+
+/* countdown */
+#time-left {
+  /* typo */
+  font-size: 10rem;
+  /* alignment */
+
+}
+
+/* buttons */
+#timer-label button {
+  /* typo */
+  font-size: 1rem;
+  /* dimension */
+  width: 45%;
+  height: 1.5rem;
+  /* box */
+  border: 1.3px solid gray;
+  border-radius: 7px;
+  /* alignment */
+  margin: auto;
+  /* color */
+  background-color: transparent;
+
+}

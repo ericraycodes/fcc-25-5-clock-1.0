@@ -1,0 +1,49 @@
+  
+
+/* LAYOUT */
+
+
+/* html body - flexbox */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* clock app */
+.clock255 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#timer-label { height: 17rem; }
+#session-label, #break-label { height: 3rem; }
+
+
+/* timer subwidget */
+#timer-label {
+  /* layout */
+  display: grid;
+  grid-template-rows: 2rem 10rem 2rem 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* session, break subwidget */
+#session-label,
+#break-label {
+/*  visibility: hidden;*/
+  display: grid;
+  grid-template-columns: 7rem 2rem 3rem 2rem;
+  grid-template-areas: "label decre time incre";
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+#session-label .label,   #break-label .label   { grid-area: label; justify-self: end; }
+#session-label .length,  #break-label .length  { grid-area: time;  }
+#session-label .button1, #break-label .button1 { grid-area: decre; }
+#session-label .button2, #break-label .button2 { grid-area: incre; }
