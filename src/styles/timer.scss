@@ -1,65 +1,68 @@
 
 
-// TIMER SUBWIDGET
-
-
-// subwidget
+// TIMER
 #timer-label {
-  // dimension
-  height: auto;
+  // position
+  position: absolute;
+  top: 1rem;
 
   // layout
   display: flex;
-  flex-flow: column;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-}
 
-// items
+  // box
+  margin-bottom: 5rem;
+}
 #timer-label {
 
-  // label
+  // schedule
   .label {
-    // typo
     font-size: 2rem;
   }
-
-  // mmss
+  // time mmss
   .length {
-    // typo
     font-size: 8rem;
-    // alignment
-    line-height: 8rem;
-    // box
-    margin-bottom: 1.3rem;
+    line-height: 7rem;
+    // margin-bottom: 1.2rem;
   }
-
   // buttons
-  .button1,
-  .button2 {
-    // typo
-    font-size: 0.85rem;
-    // box
-    border: 1.3px solid gray;
-    border-radius: 4px;
-    padding: 2px;
-    margin: 0.2rem 0;
-    // dimension
-    width: 8rem;
-    // color
-    background-color: transparent;
-  }
-
-  // position
-  position: relative;
-  .button1 {
-    position: relative;
-    right: 4.5rem;
-  }
-  .button2 {
+  button {
+    // border-left: 3px solid lightgray;
+    border-radius: 2px;
+    width: 4rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    // position
     position: absolute;
-    top: 11.95rem;
-    right: 1rem;
+    top: 10.8rem;
+    // effects
+    background-color: transparent;
+    transition: font-size 0.1s;
   }
-
+  button:hover {
+    // effects
+    font-size: 1.2rem;
+    transition: font-size 0.2s;
+    background-color: lightblue;
+  }
+  button:active {
+    background-color: orange;
+  }
+  .button1 {
+    left: 5.5rem;
+  }
+  .button2 {
+    right: 5.5rem;
+  }
+}
+#timer-label::after {
+  content: 'line';
+  color: transparent;
+  border-bottom: 3px solid lightgray;
+  width: 7rem;
+  position: absolute;
+  bottom: -3.5rem;
+  z-index: -1;
 }

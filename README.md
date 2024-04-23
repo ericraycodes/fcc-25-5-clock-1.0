@@ -40,7 +40,48 @@ The timer always display time in **mm:ss** (*minutes:seconds*, `00:00`) format. 
 1. The *timer*'s' **reset** returns the app to its initial state.
 
 
-
 ## Resource
-- [Clock Alarm] (https://pixabay.com/sound-effects/clock-alarm-8761/) sound file
+### Beep
+- [Clock Alarm](https://pixabay.com/sound-effects/clock-alarm-8761/) sound file
 - pixabay [license](https://pixabay.com/service/license-summary/)
+### Icons
+[Fontawesome](https://fontawesome.com/)
+1. Icon components
+```
+  #solid play
+  <FontAwesomeIcon icon="fa-solid fa-play" />
+  #circle play 
+  <FontAwesomeIcon icon="fa-regular fa-circle-play" />
+
+  #solid pause
+  <FontAwesomeIcon icon="fa-solid fa-pause" />
+  #circle pause
+  <FontAwesomeIcon icon="fa-regular fa-circle-pause" />
+
+  #solid clock rotate left
+  <FontAwesomeIcon icon="fa-solid fa-clock-rotate-left" />
+
+  #solid square caret left
+  <FontAwesomeIcon icon{ faCaretLeft } />
+
+  #solid square caret right
+  <FontAwesomeIcon icon={ faCaretRight } />
+```
+1. Add icon-components to react
+```
+  # First, installed the core package, to make the icons work
+  npm i --save @fortawesome/fontawesome-svg-core
+
+  # Second, installed the icon packages, for the selection of free icons:
+  npm i --save @fortawesome/free-solid-svg-icons
+  npm i --save @fortawesome/free-regular-svg-icons
+  npm i --save @fortawesome/free-brands-svg-icons
+
+  #Last, installed the Font Awesome react component:
+  npm i --save @fortawesome/react-fontawesome@latest
+```
+1. Import to React.js
+```
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+```

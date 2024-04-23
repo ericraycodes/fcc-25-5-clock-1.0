@@ -1,27 +1,25 @@
 
 
 // CLOCK APP
-
-
 .clock255 {
+  // dimension
+  width: 380px;
+  height: auto;
+  min-width: 320px;
+
   // box
   border: 5px solid gray;
   border-radius: 2rem;
-  padding: 1.5rem 4rem;
-
-  // dimension
-  width: auto;
-  height: auto;
-  min-width: 320px;
-  min-height: 340px;
+  padding: 2rem;
 
   // layout
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 1.5rem;
 
   // position
   position: relative;
+  padding-top: 15.8rem;
 }

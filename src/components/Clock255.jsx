@@ -5,6 +5,8 @@ import { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import Time from './Time';
 import mp3URL from '../assets/ambient-flute-notification-3-185275.mp3';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 
 // App data
@@ -68,7 +70,7 @@ export default function Clock255() {
   const audioIDRef = useRef(null);
   const audioRef = useRef(null);
   // console: data
-  window.console.log(schedule, 'running:', isRunning, 'ref:', timeoutIDRef.current);
+  window.console.log(schedule, isRunning, timeoutIDRef.current);
 
 
   /** EFFECTS
@@ -215,6 +217,13 @@ export default function Clock255() {
 
   // mmss format of the countdown time left
   const mmss = formatToMMSS(countdownTime);
+  // button#start_stop text
+  const bttnPlayPause = isRunning ? 'PAUSE' : 'PLAY';
+  // button icons
+  // const decrementIcon = <FontAwesomeIcon icon={ faCaretLeft } />;
+  const decrementIcon = '-';
+  // const incrementIcon = <FontAwesomeIcon icon={ faCaretRight } />;
+  const incrementIcon = '+';
 
 
   // RENDER JSX
@@ -227,7 +236,7 @@ export default function Clock255() {
           label={ schedule }
           length={ mmss }
         />
-        <Button id={ 'start_stop' } text={ 'PLAY / PAUSE' } callback={ handleButtonId }/>
+        <Button id={ 'start_stop' } text={ bttnPlayPause } callback={ handleButtonId }/>
         <Button id={ 'reset' } text={ 'RESET' } callback={ handleButtonId }/>
       </section>
       <section id='session-label'>
@@ -236,8 +245,8 @@ export default function Clock255() {
           label={ 'Session Length' }
           length={ sessionLength }
         />
-        <Button id={ 'session-decrement' } text={ '-' } callback={ handleButtonId }/>
-        <Button id={ 'session-increment' } text={ '+' } callback={ handleButtonId }/>
+        <Button id={ 'session-decrement' } text={ decrementIcon } callback={ handleButtonId }/>
+        <Button id={ 'session-increment' } text={ incrementIcon } callback={ handleButtonId }/>
       </section>
       <section id='break-label'>
         <Time
@@ -245,8 +254,8 @@ export default function Clock255() {
           label={ 'Break Length' }
           length={ breakLength }
         />
-        <Button id={ 'break-decrement' } text={ '-' } callback={ handleButtonId }/>
-        <Button id={ 'break-increment' } text={ '+' } callback={ handleButtonId }/>
+        <Button id={ 'break-decrement' } text={ decrementIcon } callback={ handleButtonId }/>
+        <Button id={ 'break-increment' } text={ incrementIcon } callback={ handleButtonId }/>
       </section>
       <audio
         id='beep'
