@@ -13,7 +13,7 @@
 const Footer = () => {
 
   // github repo project link
-  const href = 'https://github.com/ericraycodes/fcc-jscalculator-2.0';
+  const href = 'https://github.com/ericraycodes/fcc-25-5-clock-1.0';
 
   return (
     <footer className='footer'>
