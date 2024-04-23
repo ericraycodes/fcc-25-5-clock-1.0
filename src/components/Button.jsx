@@ -41,8 +41,7 @@ export default function Button({ id, text, callback }) {
     window.console.count('user-click');
     window.console.log(event, event.target.id);
     // callback
-    let id = event.target.id;
-    callback(id);
+    callback(event.target.id);
   };
 
 

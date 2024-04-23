@@ -1,0 +1,33 @@
+
+
+/* FOOTER COMPONENT */
+
+
+/* footer container */
+.footer {
+    /* box */
+    margin-top: 15px;
+    /* text content */
+    text-align: center;
+    /* color */
+    color: rgba(0, 0, 0, 0.55);
+  }
+  
+  /* project name */
+  .footer h2 {
+    /* typo */
+    font-size: 1.2rem;
+    font-style: italic;
+    letter-spacing: 0.2rem;
+    /* color */
+    color: rgba(0, 0, 0, 0.55);
+  }
+  /* project info */
+  .footer p,
+  .footer a {
+    /* typo */
+    font-size: 0.7rem;
+    /* box */
+    margin-top: 5px;
+  }
+  

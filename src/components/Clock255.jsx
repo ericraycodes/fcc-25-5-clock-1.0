@@ -4,6 +4,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 import Time from './Time';
+import Footer from './Footer';
 import mp3URL from '../assets/ambient-flute-notification-3-185275.mp3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
@@ -220,9 +221,7 @@ export default function Clock255() {
   // button#start_stop text
   const bttnPlayPause = isRunning ? 'PAUSE' : 'PLAY';
   // button icons
-  // const decrementIcon = <FontAwesomeIcon icon={ faCaretLeft } />;
   const decrementIcon = '-';
-  // const incrementIcon = <FontAwesomeIcon icon={ faCaretRight } />;
   const incrementIcon = '+';
 
 
@@ -264,6 +263,7 @@ export default function Clock255() {
         preload='auto'
       ></audio>
     </main>
+    <Footer/>
     </>
   );
 }
