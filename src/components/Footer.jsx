@@ -18,7 +18,7 @@ const Footer = () => {
   return (
     <footer className='footer'>
       <h2>25 + 5 CLOCK</h2>
-      <p>A freeCodeCamp certification project.</p>
+      <p>For a freeCodeCamp certification project.</p>
       <p>By <a
               href={ href }
               target='_blank'

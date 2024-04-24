@@ -221,8 +221,9 @@ export default function Clock255() {
   // button#start_stop text
   const bttnPlayPause = isRunning ? 'PAUSE' : 'PLAY';
   // button icons
-  const decrementIcon = '-';
-  const incrementIcon = '+';
+  const decrementIcon = '◁';
+  const incrementIcon = '▷';
+  // >▷▶◀◁';
 
 
   // RENDER JSX
